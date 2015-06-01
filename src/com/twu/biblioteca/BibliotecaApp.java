@@ -15,6 +15,6 @@ public class BibliotecaApp {
     }
 
     private static void initBookList() {
-        bookList.add(new Book("Head First Java"));
+        bookList.add(new Book("Head First Java", "1995", "KathySierra"));
     }
 }
