@@ -22,6 +22,7 @@ public class BibliotecaApp {
                 printBookList();
                 break;
             default:
+                printInvalidErrorMessage();
                 break;
         }
 
@@ -34,8 +35,17 @@ public class BibliotecaApp {
 
     private static void startMonitor() {
         Scanner scanner = new Scanner(System.in);
-        int input = scanner.nextInt();
-        handleInput(input);
+        try {
+            int input = scanner.nextInt();
+            handleInput(input);
+        }
+        catch(Exception e) {
+            printInvalidErrorMessage();
+        }
+    }
+
+    private static void printInvalidErrorMessage() {
+        System.out.println("Select a valid option!");
     }
 
     private static void printBookList() {

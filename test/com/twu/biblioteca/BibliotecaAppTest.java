@@ -46,6 +46,14 @@ public class BibliotecaAppTest {
         assertTrue(outContent.toString().contains(bookInfo));
     }
 
+    @Test
+    public void shouldShowInvalidErrorMessageWhenSelectInvalidOptions() {
+        startBibliotecaAppWithInput("invalid");
+        String invalidErrorMessage = "Select a valid option!";
+
+        assertTrue(outContent.toString().contains(invalidErrorMessage));
+    }
+
     private void startBibliotecaAppWithInput(String input) {
         System.setIn(new ByteArrayInputStream(input.getBytes()));
         BibliotecaApp.main(new String[]{});
