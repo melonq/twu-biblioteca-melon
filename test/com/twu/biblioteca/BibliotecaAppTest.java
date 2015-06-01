@@ -1,18 +1,33 @@
 package com.twu.biblioteca;
 
-import junit.framework.TestCase;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
-public class BibliotecaAppTest extends TestCase {
+import static org.junit.Assert.*;
+
+public class BibliotecaAppTest {
+    private ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+
+    @Before
+    public void setUp() {
+        System.setOut(new PrintStream(outContent));
+    }
 
     @Test
-    public void testMain() throws Exception {
-        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(outContent));
+    public void mainPageShouldHaveWelcomeMessage() {
         BibliotecaApp.main(new String[]{});
-        assertEquals("Welcome to Biblioteca!\n", outContent.toString());
+
+        assertTrue( outContent.toString().contains("Welcome to Biblioteca!") );
+    }
+
+    @Test
+    public void mainPageShouldHaveListBooks() {
+        BibliotecaApp.main(new String[]{});
+        String bookInfo = "Head First Java";
+
+        assertTrue( outContent.toString().contains(bookInfo) );
     }
 }
