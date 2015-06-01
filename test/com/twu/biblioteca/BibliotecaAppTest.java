@@ -26,8 +26,8 @@ public class BibliotecaAppTest {
     @Test
     public void mainPageShouldHaveListBooks() {
         BibliotecaApp.main(new String[]{});
-        String bookInfo = "Head First Java\t#1995\t#KathySierra";
+        String bookInfo = "Head First Java\t#1995\t#KathySierra\nEffective C++\t#1991\t#Scott Meyers";
 
-        assertTrue( outContent.toString().contains(bookInfo) );
+        assertTrue(outContent.toString().contains(bookInfo) );
     }
 }
