@@ -11,10 +11,9 @@ public class BibliotecaApp {
         initBookList();
 
         System.out.println("Welcome to Biblioteca!");
+        printMenuOptions();
 
-        Scanner scanner = new Scanner(System.in);
-        int input = scanner.nextInt();
-        handleInput(input);
+        startMonitor();
     }
 
     public static void handleInput(int input) {
@@ -26,6 +25,17 @@ public class BibliotecaApp {
                 break;
         }
 
+    }
+
+    private static void printMenuOptions() {
+        System.out.println("Please enter a number to select the option:");
+        System.out.println("1. Show List Books.");
+    }
+
+    private static void startMonitor() {
+        Scanner scanner = new Scanner(System.in);
+        int input = scanner.nextInt();
+        handleInput(input);
     }
 
     private static void printBookList() {

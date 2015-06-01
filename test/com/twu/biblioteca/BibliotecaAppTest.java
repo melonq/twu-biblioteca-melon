@@ -23,6 +23,14 @@ public class BibliotecaAppTest {
     }
 
     @Test
+    public void mainPageShouldHaveMenuOptions() {
+        startBibliotecaAppWithInput("0");
+
+        assertTrue(outContent.toString().contains("Please enter a number to select the option:"));
+        assertTrue(outContent.toString().contains("1. Show List Books."));
+    }
+
+    @Test
     public void mainPageShouldNotHaveListBooks() {
         startBibliotecaAppWithInput("0");
         String bookInfo = "Head First Java\t#1995\t#KathySierra\nEffective C++\t#1991\t#Scott Meyers";
