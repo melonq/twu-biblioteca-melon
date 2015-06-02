@@ -18,6 +18,8 @@ public class BibliotecaAppTest {
         outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
         expectedContent = new StringBuilder();
+        expectedContent.append(bibliotecaApp.getWelcomeMessage());
+        expectedContent.append(bibliotecaApp.getMenuMessage());
     }
 
     @Test
@@ -39,8 +41,6 @@ public class BibliotecaAppTest {
 
     @Test
     public void shouldQuitProgramWhenSelectQuit() {
-        expectedContent.append(bibliotecaApp.getWelcomeMessage());
-        expectedContent.append(bibliotecaApp.getMenuMessage());
         expectedContent.append(bibliotecaApp.getQuitMessage());
 
         startBibliotecaAppWithInput("0");
@@ -50,8 +50,6 @@ public class BibliotecaAppTest {
 
     @Test
     public void shouldNotQuitUntilSelectQuit() {
-        expectedContent.append(bibliotecaApp.getWelcomeMessage());
-        expectedContent.append(bibliotecaApp.getMenuMessage());
         expectedContent.append(getBookList());
         expectedContent.append(getBookList());
         expectedContent.append(bibliotecaApp.getQuitMessage());
@@ -66,11 +64,9 @@ public class BibliotecaAppTest {
         expectedContent.append("Please input the check-out book name:\n");
         expectedContent.append(bibliotecaApp.getCheckoutSuccessfulMessage());
         expectedContent.append("List Books:\nEffective C++\t#1991\t#Scott Meyers\n");
+        expectedContent.append(bibliotecaApp.getQuitMessage());
 
-        System.setIn(new ByteArrayInputStream("Head First Java".getBytes()));
-        bibliotecaApp.handleInput("2");
-
-        bibliotecaApp.handleInput("1");
+        startBibliotecaAppWithInput("2\nHead First Java\n1");
 
         assertEquals(expectedContent.toString(), outContent.toString());
     }

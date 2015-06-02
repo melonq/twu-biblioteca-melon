@@ -43,19 +43,18 @@ public class BibliotecaApp {
         startMonitor();
     }
 
-    public void handleInput(String input) {
+    public void handleInput(String input, Scanner scanner) {
         if (input.equals("1")) {
             printBookList();
         } else if (input.equals("2")) {
-            startCheckoutBook();
+            startCheckoutBook(scanner);
         } else {
             printInvalidErrorMessage();
         }
     }
 
-    private void startCheckoutBook() {
+    private void startCheckoutBook(Scanner scanner) {
         System.out.println("Please input the check-out book name:");
-        Scanner scanner = new Scanner(System.in);
         String bookName = scanner.nextLine();
         if (checkoutSuccessful(bookName)) {
             System.out.print(getCheckoutSuccessfulMessage());
@@ -78,11 +77,11 @@ public class BibliotecaApp {
 
     private void startMonitor() {
         Scanner scanner = new Scanner(System.in);
-        String input = scanner.next();
+        String input = scanner.nextLine();
         while (!input.equals("0")) {
-            handleInput(input);
+            handleInput(input, scanner);
             try {
-                input = scanner.next();
+                input = scanner.nextLine();
             }
             catch (Exception e) {
                 break;
@@ -103,6 +102,7 @@ public class BibliotecaApp {
     }
 
     private static void initBookList() {
+        bookList = new ArrayList<Book>();
         bookList.add(new Book("Head First Java", "1995", "KathySierra"));
         bookList.add(new Book("Effective C++", "1991", "Scott Meyers"));
     }
