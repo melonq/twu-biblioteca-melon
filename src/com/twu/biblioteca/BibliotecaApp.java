@@ -7,10 +7,23 @@ import java.util.Scanner;
 public class BibliotecaApp {
     private static List<Book> bookList = new ArrayList<Book>();
 
+    public static String getWelcomeMessage() {
+        return "Welcome to Biblioteca!\n";
+    }
+
+    public static String getMenuMessage() {
+        return "Please enter a number to select the option:\n" +
+                "1. Show List Books.\n";
+    }
+
+    public static String getInvalidErrorMessage() {
+        return "Select a valid option!\n";
+    }
+
     public static void main(String[] args) {
         initBookList();
 
-        System.out.println("Welcome to Biblioteca!");
+        System.out.print(getWelcomeMessage());
         printMenuOptions();
 
         startMonitor();
@@ -29,8 +42,7 @@ public class BibliotecaApp {
     }
 
     private static void printMenuOptions() {
-        System.out.println("Please enter a number to select the option:");
-        System.out.println("1. Show List Books.");
+        System.out.print(getMenuMessage());
     }
 
     private static void startMonitor() {
@@ -45,7 +57,7 @@ public class BibliotecaApp {
     }
 
     private static void printInvalidErrorMessage() {
-        System.out.println("Select a valid option!");
+        System.out.print(getInvalidErrorMessage());
     }
 
     private static void printBookList() {
