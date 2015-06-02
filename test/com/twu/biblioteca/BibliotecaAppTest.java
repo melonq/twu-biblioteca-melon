@@ -8,11 +8,13 @@ import java.io.*;
 import static org.junit.Assert.*;
 
 public class BibliotecaAppTest {
+    private BibliotecaApp bibliotecaApp;
     private ByteArrayOutputStream outContent;
     private StringBuilder expectedContent;
 
     @Before
     public void setUp() {
+        bibliotecaApp = new BibliotecaApp();
         outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
         expectedContent = new StringBuilder();
@@ -37,9 +39,9 @@ public class BibliotecaAppTest {
 
     @Test
     public void shouldQuitProgramWhenSelectQuit() {
-        expectedContent.append(BibliotecaApp.getWelcomeMessage());
-        expectedContent.append(BibliotecaApp.getMenuMessage());
-        expectedContent.append(BibliotecaApp.getQuitMessage());
+        expectedContent.append(bibliotecaApp.getWelcomeMessage());
+        expectedContent.append(bibliotecaApp.getMenuMessage());
+        expectedContent.append(bibliotecaApp.getQuitMessage());
 
         startBibliotecaAppWithInput("0");
 
@@ -48,11 +50,11 @@ public class BibliotecaAppTest {
 
     @Test
     public void shouldNotQuitUntilSelectQuit() {
-        expectedContent.append(BibliotecaApp.getWelcomeMessage());
-        expectedContent.append(BibliotecaApp.getMenuMessage());
+        expectedContent.append(bibliotecaApp.getWelcomeMessage());
+        expectedContent.append(bibliotecaApp.getMenuMessage());
         expectedContent.append(getBookList());
         expectedContent.append(getBookList());
-        expectedContent.append(BibliotecaApp.getQuitMessage());
+        expectedContent.append(bibliotecaApp.getQuitMessage());
 
         startBibliotecaAppWithInput("1\n1\n0");
 
@@ -62,10 +64,13 @@ public class BibliotecaAppTest {
     @Test
     public void shouldNotSeeTheBookAfterCheckoutIt() {
         expectedContent.append("Please input the check-out book name:\n");
-        expectedContent.append(BibliotecaApp.getCheckoutSuccessfulMessage());
+        expectedContent.append(bibliotecaApp.getCheckoutSuccessfulMessage());
+        expectedContent.append("List Books:\nEffective C++\t#1991\t#Scott Meyers\n");
 
         System.setIn(new ByteArrayInputStream("Head First Java".getBytes()));
-        BibliotecaApp.handleInput("2");
+        bibliotecaApp.handleInput("2");
+
+        bibliotecaApp.handleInput("1");
 
         assertEquals(expectedContent.toString(), outContent.toString());
     }
@@ -96,7 +101,7 @@ public class BibliotecaAppTest {
 
     private void startBibliotecaAppWithInput(String input) {
         System.setIn(new ByteArrayInputStream(input.getBytes()));
-        BibliotecaApp.main(new String[]{});
+        bibliotecaApp.start();
     }
 
     private String getBookList() {

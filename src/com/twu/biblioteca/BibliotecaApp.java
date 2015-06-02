@@ -7,30 +7,34 @@ import java.util.Scanner;
 public class BibliotecaApp {
     private static List<Book> bookList = new ArrayList<Book>();
 
-    public static String getWelcomeMessage() {
+    public String getWelcomeMessage() {
         return "Welcome to Biblioteca!\n";
     }
 
-    public static String getMenuMessage() {
+    public String getMenuMessage() {
         return "Please enter a number to select the option:\n" +
                 "1. Show List Books.\n" +
                 "2. Checkout Books.\n" +
                 "0. Quit.\n";
     }
 
-    public static String getInvalidErrorMessage() {
+    public String getInvalidErrorMessage() {
         return "Select a valid option!\n";
     }
 
-    public static String getQuitMessage() {
+    public String getQuitMessage() {
         return "Bye!";
     }
 
-    public static String getCheckoutSuccessfulMessage() {
-        return "“Thank you! Enjoy the book”.";
+    public String getCheckoutSuccessfulMessage() {
+        return "Thank you! Enjoy the book.\n";
     }
 
     public static void main(String[] args) {
+        new BibliotecaApp().start();
+    }
+
+    public void start() {
         initBookList();
 
         System.out.print(getWelcomeMessage());
@@ -39,7 +43,7 @@ public class BibliotecaApp {
         startMonitor();
     }
 
-    public static void handleInput(String input) {
+    public void handleInput(String input) {
         if (input.equals("1")) {
             printBookList();
         } else if (input.equals("2")) {
@@ -49,16 +53,16 @@ public class BibliotecaApp {
         }
     }
 
-    private static void startCheckoutBook() {
+    private void startCheckoutBook() {
         System.out.println("Please input the check-out book name:");
         Scanner scanner = new Scanner(System.in);
         String bookName = scanner.nextLine();
         if (checkoutSuccessful(bookName)) {
-            System.out.println(getCheckoutSuccessfulMessage());
+            System.out.print(getCheckoutSuccessfulMessage());
         }
     }
 
-    private static boolean checkoutSuccessful(String bookName) {
+    private boolean checkoutSuccessful(String bookName) {
         for(Book book : bookList) {
             if (book.getName().equals(bookName) && !book.isCheckedOut()) {
                 book.setCheckedOut(true);
@@ -68,11 +72,11 @@ public class BibliotecaApp {
         return false;
     }
 
-    private static void printMenuOptions() {
+    private void printMenuOptions() {
         System.out.print(getMenuMessage());
     }
 
-    private static void startMonitor() {
+    private void startMonitor() {
         Scanner scanner = new Scanner(System.in);
         String input = scanner.next();
         while (!input.equals("0")) {
@@ -87,7 +91,7 @@ public class BibliotecaApp {
         System.out.print(getQuitMessage());
     }
 
-    private static void printInvalidErrorMessage() {
+    private void printInvalidErrorMessage() {
         System.out.print(getInvalidErrorMessage());
     }
 
