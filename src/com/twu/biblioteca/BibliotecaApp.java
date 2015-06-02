@@ -14,6 +14,7 @@ public class BibliotecaApp {
     public static String getMenuMessage() {
         return "Please enter a number to select the option:\n" +
                 "1. Show List Books.\n" +
+                "2. Checkout Books.\n" +
                 "0. Quit.\n";
     }
 
@@ -23,6 +24,10 @@ public class BibliotecaApp {
 
     public static String getQuitMessage() {
         return "Bye!";
+    }
+
+    public static String getCheckoutSuccessfulMessage() {
+        return "“Thank you! Enjoy the book”.";
     }
 
     public static void main(String[] args) {
@@ -37,9 +42,30 @@ public class BibliotecaApp {
     public static void handleInput(String input) {
         if (input.equals("1")) {
             printBookList();
+        } else if (input.equals("2")) {
+            startCheckoutBook();
         } else {
             printInvalidErrorMessage();
         }
+    }
+
+    private static void startCheckoutBook() {
+        System.out.println("Please input the check-out book name:");
+        Scanner scanner = new Scanner(System.in);
+        String bookName = scanner.nextLine();
+        if (checkoutSuccessful(bookName)) {
+            System.out.println(getCheckoutSuccessfulMessage());
+        }
+    }
+
+    private static boolean checkoutSuccessful(String bookName) {
+        for(Book book : bookList) {
+            if (book.getName().equals(bookName) && !book.isCheckedOut()) {
+                book.setCheckedOut(true);
+                return true;
+            }
+        }
+        return false;
     }
 
     private static void printMenuOptions() {
@@ -68,7 +94,7 @@ public class BibliotecaApp {
     private static void printBookList() {
         System.out.println("List Books:");
         for(Book book : bookList) {
-            System.out.println(book);
+            if (!book.isCheckedOut()) System.out.println(book);
         }
     }
 

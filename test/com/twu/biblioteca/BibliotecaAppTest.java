@@ -16,8 +16,6 @@ public class BibliotecaAppTest {
         outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
         expectedContent = new StringBuilder();
-        expectedContent.append(BibliotecaApp.getWelcomeMessage());
-        expectedContent.append(BibliotecaApp.getMenuMessage());
     }
 
     @Test
@@ -33,11 +31,14 @@ public class BibliotecaAppTest {
 
         assertTrue(outContent.toString().contains("Please enter a number to select the option:"));
         assertTrue(outContent.toString().contains("1. Show List Books."));
+        assertTrue(outContent.toString().contains("2. Checkout Books."));
         assertTrue(outContent.toString().contains("0. Quit."));
     }
 
     @Test
     public void shouldQuitProgramWhenSelectQuit() {
+        expectedContent.append(BibliotecaApp.getWelcomeMessage());
+        expectedContent.append(BibliotecaApp.getMenuMessage());
         expectedContent.append(BibliotecaApp.getQuitMessage());
 
         startBibliotecaAppWithInput("0");
@@ -47,11 +48,24 @@ public class BibliotecaAppTest {
 
     @Test
     public void shouldNotQuitUntilSelectQuit() {
+        expectedContent.append(BibliotecaApp.getWelcomeMessage());
+        expectedContent.append(BibliotecaApp.getMenuMessage());
         expectedContent.append(getBookList());
         expectedContent.append(getBookList());
         expectedContent.append(BibliotecaApp.getQuitMessage());
 
         startBibliotecaAppWithInput("1\n1\n0");
+
+        assertEquals(expectedContent.toString(), outContent.toString());
+    }
+
+    @Test
+    public void shouldNotSeeTheBookAfterCheckoutIt() {
+        expectedContent.append("Please input the check-out book name:\n");
+        expectedContent.append(BibliotecaApp.getCheckoutSuccessfulMessage());
+
+        System.setIn(new ByteArrayInputStream("Head First Java".getBytes()));
+        BibliotecaApp.handleInput("2");
 
         assertEquals(expectedContent.toString(), outContent.toString());
     }
