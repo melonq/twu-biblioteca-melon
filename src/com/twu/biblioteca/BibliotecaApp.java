@@ -13,11 +13,16 @@ public class BibliotecaApp {
 
     public static String getMenuMessage() {
         return "Please enter a number to select the option:\n" +
-                "1. Show List Books.\n";
+                "1. Show List Books.\n" +
+                "0. Quit.\n";
     }
 
     public static String getInvalidErrorMessage() {
         return "Select a valid option!\n";
+    }
+
+    public static String getQuitMessage() {
+        return "Bye!";
     }
 
     public static void main(String[] args) {
@@ -29,16 +34,12 @@ public class BibliotecaApp {
         startMonitor();
     }
 
-    public static void handleInput(int input) {
-        switch (input) {
-            case 1:
-                printBookList();
-                break;
-            default:
-                printInvalidErrorMessage();
-                break;
+    public static void handleInput(String input) {
+        if (input.equals("1")) {
+            printBookList();
+        } else {
+            printInvalidErrorMessage();
         }
-
     }
 
     private static void printMenuOptions() {
@@ -47,13 +48,17 @@ public class BibliotecaApp {
 
     private static void startMonitor() {
         Scanner scanner = new Scanner(System.in);
-        try {
-            int input = scanner.nextInt();
+        String input = scanner.next();
+        while (!input.equals("0")) {
             handleInput(input);
+            try {
+                input = scanner.next();
+            }
+            catch (Exception e) {
+                break;
+            }
         }
-        catch(Exception e) {
-            printInvalidErrorMessage();
-        }
+        System.out.print(getQuitMessage());
     }
 
     private static void printInvalidErrorMessage() {

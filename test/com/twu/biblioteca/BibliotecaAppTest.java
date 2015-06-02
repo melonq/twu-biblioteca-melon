@@ -8,14 +8,16 @@ import java.io.*;
 import static org.junit.Assert.*;
 
 public class BibliotecaAppTest {
-    private ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+    private ByteArrayOutputStream outContent;
     private StringBuilder expectedContent;
 
     @Before
     public void setUp() {
+        outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
         expectedContent = new StringBuilder();
         expectedContent.append(BibliotecaApp.getWelcomeMessage());
+        expectedContent.append(BibliotecaApp.getMenuMessage());
     }
 
     @Test
@@ -31,6 +33,27 @@ public class BibliotecaAppTest {
 
         assertTrue(outContent.toString().contains("Please enter a number to select the option:"));
         assertTrue(outContent.toString().contains("1. Show List Books."));
+        assertTrue(outContent.toString().contains("0. Quit."));
+    }
+
+    @Test
+    public void shouldQuitProgramWhenSelectQuit() {
+        expectedContent.append(BibliotecaApp.getQuitMessage());
+
+        startBibliotecaAppWithInput("0");
+
+        assertEquals(expectedContent.toString(), outContent.toString());
+    }
+
+    @Test
+    public void shouldNotQuitUntilSelectQuit() {
+        expectedContent.append(getBookList());
+        expectedContent.append(getBookList());
+        expectedContent.append(BibliotecaApp.getQuitMessage());
+
+        startBibliotecaAppWithInput("1\n1\n0");
+
+        assertEquals(expectedContent.toString(), outContent.toString());
     }
 
     @Test
@@ -55,26 +78,6 @@ public class BibliotecaAppTest {
         String invalidErrorMessage = "Select a valid option!";
 
         assertTrue(outContent.toString().contains(invalidErrorMessage));
-    }
-
-    @Test
-    public void shouldSeeExpectedMessageWhenInputIs0() {
-        expectedContent.append(BibliotecaApp.getMenuMessage());
-        expectedContent.append(BibliotecaApp.getInvalidErrorMessage());
-
-        startBibliotecaAppWithInput("0");
-
-        assertEquals(expectedContent.toString(), outContent.toString());
-    }
-
-    @Test
-    public void shouldSeeExpectedMessageWhenInputIs1() {
-        expectedContent.append(BibliotecaApp.getMenuMessage());
-        expectedContent.append(getBookList());
-
-        startBibliotecaAppWithInput("1");
-
-        assertEquals(expectedContent.toString(), outContent.toString());
     }
 
     private void startBibliotecaAppWithInput(String input) {
