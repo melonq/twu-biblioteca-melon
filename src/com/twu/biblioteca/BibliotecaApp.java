@@ -15,6 +15,7 @@ public class BibliotecaApp {
         return "Please enter a number to select the option:\n" +
                 "1. Show List Books.\n" +
                 "2. Checkout Books.\n" +
+                "3. Return Books.\n" +
                 "0. Quit.\n";
     }
 
@@ -32,6 +33,14 @@ public class BibliotecaApp {
 
     public String getCheckoutFailedMessage() {
         return "That book is not available.\n";
+    }
+
+    public String getReturnSuccessfulMessage() {
+        return "Thank you for returning the book.\n";
+    }
+
+    public String getReturnFailedMessage() {
+        return "That is not a valid book to return.\n";
     }
 
     public static void main(String[] args) {
@@ -55,6 +64,8 @@ public class BibliotecaApp {
             printBookList();
         } else if (input.equals("2")) {
             startCheckoutBook(scanner);
+        } else if (input.equals("3")) {
+            startReturnBook(scanner);
         } else {
             printInvalidErrorMessage();
         }
@@ -74,6 +85,26 @@ public class BibliotecaApp {
         for(Book book : bookList) {
             if (book.getName().equals(bookName) && !book.isCheckedOut()) {
                 book.setCheckedOut(true);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void startReturnBook(Scanner scanner) {
+        System.out.print("Please input the book name which you want to return:\n");
+        String bookName = scanner.nextLine();
+        if (returnSuccessful(bookName)) {
+            System.out.print(getReturnSuccessfulMessage());
+        } else {
+            System.out.print(getReturnFailedMessage());
+        }
+    }
+
+    private boolean returnSuccessful(String bookName) {
+        for(Book book : bookList) {
+            if (book.getName().equals(bookName) && book.isCheckedOut()) {
+                book.setCheckedOut(false);
                 return true;
             }
         }

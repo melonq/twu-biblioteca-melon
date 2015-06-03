@@ -41,6 +41,7 @@ public class BibliotecaAppTest {
         assertTrue(outContent.toString().contains("Please enter a number to select the option:"));
         assertTrue(outContent.toString().contains("1. Show List Books."));
         assertTrue(outContent.toString().contains("2. Checkout Books."));
+        assertTrue(outContent.toString().contains("3. Return Books."));
         assertTrue(outContent.toString().contains("0. Quit."));
     }
 
@@ -87,6 +88,35 @@ public class BibliotecaAppTest {
         bookList.add(new Book("Effective C++", "1991", "Scott Meyers"));
 
         startBibliotecaAppWithInput("2\nHead First Java\n");
+
+        assertEquals(expectedContent.toString(), outContent.toString());
+    }
+
+    @Test
+    public void shouldSeeTheCheckedOutBookAfterItReturned() {
+        bookList.add(new Book("Head First Java", "1995", "KathySierra"));
+        bookList.add(new Book("Effective C++", "1991", "Scott Meyers"));
+        for(Book book : bookList) {
+            book.setCheckedOut(true);
+        }
+
+        expectedContent.append("Please input the book name which you want to return:\n");
+        expectedContent.append(bibliotecaApp.getReturnSuccessfulMessage());
+        expectedContent.append("List Books:\nEffective C++\t#1991\t#Scott Meyers\n");
+        expectedContent.append(bibliotecaApp.getQuitMessage());
+
+        startBibliotecaAppWithInput("3\nEffective C++\n1");
+
+        assertEquals(expectedContent.toString(), outContent.toString());
+    }
+
+    @Test
+    public void shouldSeeReturnFailedMessageWhenReturnBookFailed() {
+        expectedContent.append("Please input the book name which you want to return:\n");
+        expectedContent.append(bibliotecaApp.getReturnFailedMessage());
+        expectedContent.append(bibliotecaApp.getQuitMessage());
+
+        startBibliotecaAppWithInput("3\nEffective C++\n");
 
         assertEquals(expectedContent.toString(), outContent.toString());
     }
