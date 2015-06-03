@@ -72,6 +72,19 @@ public class BibliotecaAppTest {
     }
 
     @Test
+    public void shouldSeeCheckoutFailedMessageWhenCheckoutBookFailed() {
+        expectedContent.append("Please input the check-out book name:\n");
+        expectedContent.append(bibliotecaApp.getCheckoutSuccessfulMessage());
+        expectedContent.append("Please input the check-out book name:\n");
+        expectedContent.append(bibliotecaApp.getCheckoutFailedMessage());
+        expectedContent.append(bibliotecaApp.getQuitMessage());
+
+        startBibliotecaAppWithInput("2\nHead First Java\n2\nHead First Java\n");
+
+        assertEquals(expectedContent.toString(), outContent.toString());
+    }
+
+    @Test
     public void mainPageShouldNotHaveListBooks() {
         startBibliotecaAppWithInput("0");
         String bookInfo = getBookList();

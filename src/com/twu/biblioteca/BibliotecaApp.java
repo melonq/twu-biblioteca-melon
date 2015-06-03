@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class BibliotecaApp {
-    private static List<Book> bookList = new ArrayList<Book>();
+    public static List<Book> bookList = new ArrayList<Book>();
 
     public String getWelcomeMessage() {
         return "Welcome to Biblioteca!\n";
@@ -28,6 +28,10 @@ public class BibliotecaApp {
 
     public String getCheckoutSuccessfulMessage() {
         return "Thank you! Enjoy the book.\n";
+    }
+
+    public String getCheckoutFailedMessage() {
+        return "That book is not available.\n";
     }
 
     public static void main(String[] args) {
@@ -58,6 +62,8 @@ public class BibliotecaApp {
         String bookName = scanner.nextLine();
         if (checkoutSuccessful(bookName)) {
             System.out.print(getCheckoutSuccessfulMessage());
+        } else {
+            System.out.print(getCheckoutFailedMessage());
         }
     }
 
