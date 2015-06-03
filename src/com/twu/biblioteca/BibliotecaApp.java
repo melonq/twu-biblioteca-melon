@@ -35,12 +35,15 @@ public class BibliotecaApp {
     }
 
     public static void main(String[] args) {
-        new BibliotecaApp().start();
+        new BibliotecaApp().startWith(new ArrayList<Book>());
     }
 
-    public void start() {
-        initBookList();
-
+    public void startWith(List<Book> bookList) {
+        if (bookList.isEmpty()) {
+            initBookList();
+        } else {
+            this.bookList = bookList;
+        }
         System.out.print(getWelcomeMessage());
         printMenuOptions();
 

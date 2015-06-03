@@ -4,6 +4,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -11,12 +13,15 @@ public class BibliotecaAppTest {
     private BibliotecaApp bibliotecaApp;
     private ByteArrayOutputStream outContent;
     private StringBuilder expectedContent;
+    private List<Book> bookList;
 
     @Before
     public void setUp() {
         bibliotecaApp = new BibliotecaApp();
         outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
+        bookList = new ArrayList<Book>();
+
         expectedContent = new StringBuilder();
         expectedContent.append(bibliotecaApp.getWelcomeMessage());
         expectedContent.append(bibliotecaApp.getMenuMessage());
@@ -74,12 +79,14 @@ public class BibliotecaAppTest {
     @Test
     public void shouldSeeCheckoutFailedMessageWhenCheckoutBookFailed() {
         expectedContent.append("Please input the check-out book name:\n");
-        expectedContent.append(bibliotecaApp.getCheckoutSuccessfulMessage());
-        expectedContent.append("Please input the check-out book name:\n");
         expectedContent.append(bibliotecaApp.getCheckoutFailedMessage());
         expectedContent.append(bibliotecaApp.getQuitMessage());
 
-        startBibliotecaAppWithInput("2\nHead First Java\n2\nHead First Java\n");
+        bookList.add(new Book("Head First Java", "1995", "KathySierra"));
+        bookList.get(0).setCheckedOut(true);
+        bookList.add(new Book("Effective C++", "1991", "Scott Meyers"));
+
+        startBibliotecaAppWithInput("2\nHead First Java\n");
 
         assertEquals(expectedContent.toString(), outContent.toString());
     }
@@ -110,7 +117,7 @@ public class BibliotecaAppTest {
 
     private void startBibliotecaAppWithInput(String input) {
         System.setIn(new ByteArrayInputStream(input.getBytes()));
-        bibliotecaApp.start();
+        bibliotecaApp.startWith(bookList);
     }
 
     private String getBookList() {
