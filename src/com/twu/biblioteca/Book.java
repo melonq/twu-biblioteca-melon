@@ -6,6 +6,7 @@ package com.twu.biblioteca;
 public class Book {
     private String name, author, yearPublished;
     private boolean checkedOut = false;
+    private User accountableUser = null;
 
     public Book(String name, String yearPublished, String author) {
         this.name = name;
@@ -24,6 +25,10 @@ public class Book {
 
     public void setCheckedOut(boolean checkedOut) {
         this.checkedOut = checkedOut;
+    }
+
+    public void setAccountableUser(User accountableUser) {
+        this.accountableUser = accountableUser;
     }
 
     public String getName() {

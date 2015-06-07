@@ -97,9 +97,9 @@ public class BibliotecaApp {
     private void startCheckoutBook(Scanner scanner) {
         System.out.println("Please input the check-out book name:");
         String bookName = scanner.nextLine();
-        boolean userAuthorizationResult = startUserAuthorization(scanner);
-        if (userAuthorizationResult == true) {
-            if (checkoutBookSuccessful(bookName)) {
+        User user = startUserAuthorization(scanner);
+        if (user != null) {
+            if (checkoutBookSuccessful(bookName, user)) {
                 System.out.print(getCheckoutBookSuccessfulMessage());
             } else {
                 System.out.print(getCheckoutBookFailedMessage());
@@ -107,10 +107,11 @@ public class BibliotecaApp {
         }
     }
 
-    private boolean checkoutBookSuccessful(String bookName) {
+    private boolean checkoutBookSuccessful(String bookName, User user) {
         for(Book book : bookList) {
             if (book.getName().equals(bookName) && !book.isCheckedOut()) {
                 book.setCheckedOut(true);
+                book.setAccountableUser(user);
                 return true;
             }
         }
@@ -157,7 +158,7 @@ public class BibliotecaApp {
         return false;
     }
 
-    private boolean startUserAuthorization(Scanner scanner) {
+    private User startUserAuthorization(Scanner scanner) {
         System.out.println("Please input your library number:");
         String libraryNumber = scanner.nextLine();
         System.out.println("Please input your password:");
@@ -165,12 +166,12 @@ public class BibliotecaApp {
 
         for (User user: userList) {
             if (user.verified(libraryNumber, password)) {
-                return true;
+                return user;
             }
         }
 
         System.out.print(getAuthorizationFailedMessage());
-        return false;
+        return null;
     }
 
     private void printMenuOptions() {
