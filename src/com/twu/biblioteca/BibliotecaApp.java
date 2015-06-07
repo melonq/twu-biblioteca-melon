@@ -17,7 +17,8 @@ public class BibliotecaApp {
                 "1. Show List Books.\n" +
                 "2. Checkout Books.\n" +
                 "3. Return Books.\n" +
-                "4. Show List Movies." +
+                "4. Show List Movies.\n" +
+                "5. Checkout Movies.\n" +
                 "0. Quit.\n";
     }
 
@@ -33,8 +34,16 @@ public class BibliotecaApp {
         return "Thank you! Enjoy the book.\n";
     }
 
+    public String getCheckoutMovieSuccessfulMessage() {
+        return "Thank you! Enjoy the movie.\n";
+    }
+
     public String getCheckoutBookFailedMessage() {
         return "That book is not available.\n";
+    }
+
+    public String getCheckoutMovieFailedMessage() {
+        return "That movie is not available.\n";
     }
 
     public String getReturnSuccessfulMessage() {
@@ -71,6 +80,8 @@ public class BibliotecaApp {
             startReturnBook(scanner);
         } else if (input.equals("4")) {
             printMovieList();
+        } else if (input.equals("5")) {
+            startCheckoutMovie(scanner);
         } else {
             printInvalidErrorMessage();
         }
@@ -79,14 +90,14 @@ public class BibliotecaApp {
     private void startCheckoutBook(Scanner scanner) {
         System.out.println("Please input the check-out book name:");
         String bookName = scanner.nextLine();
-        if (checkoutSuccessful(bookName)) {
+        if (checkoutBookSuccessful(bookName)) {
             System.out.print(getCheckoutBookSuccessfulMessage());
         } else {
             System.out.print(getCheckoutBookFailedMessage());
         }
     }
 
-    private boolean checkoutSuccessful(String bookName) {
+    private boolean checkoutBookSuccessful(String bookName) {
         for(Book book : bookList) {
             if (book.getName().equals(bookName) && !book.isCheckedOut()) {
                 book.setCheckedOut(true);
@@ -96,17 +107,37 @@ public class BibliotecaApp {
         return false;
     }
 
+    private void startCheckoutMovie(Scanner scanner) {
+        System.out.println("Please input the check-out movie name:");
+        String movieName = scanner.nextLine();
+        if (checkoutMovieSuccessful(movieName)) {
+            System.out.print(getCheckoutMovieSuccessfulMessage());
+        } else {
+            System.out.print(getCheckoutMovieFailedMessage());
+        }
+    }
+
+    private boolean checkoutMovieSuccessful(String movieName) {
+        for(Movie movie : movieList) {
+            if (movie.getName().equals(movieName) && !movie.isCheckedOut()) {
+                movie.setCheckedOut(true);
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void startReturnBook(Scanner scanner) {
         System.out.print("Please input the book name which you want to return:\n");
         String bookName = scanner.nextLine();
-        if (returnSuccessful(bookName)) {
+        if (returnBookSuccessful(bookName)) {
             System.out.print(getReturnSuccessfulMessage());
         } else {
             System.out.print(getReturnFailedMessage());
         }
     }
 
-    private boolean returnSuccessful(String bookName) {
+    private boolean returnBookSuccessful(String bookName) {
         for(Book book : bookList) {
             if (book.getName().equals(bookName) && book.isCheckedOut()) {
                 book.setCheckedOut(false);

@@ -43,6 +43,7 @@ public class BibliotecaAppTest {
         assertTrue(outContent.toString().contains("2. Checkout Books."));
         assertTrue(outContent.toString().contains("3. Return Books."));
         assertTrue(outContent.toString().contains("4. Show List Movies."));
+        assertTrue(outContent.toString().contains("5. Checkout Movies."));
         assertTrue(outContent.toString().contains("0. Quit."));
     }
 
@@ -128,6 +129,29 @@ public class BibliotecaAppTest {
         expectedContent.append(bibliotecaApp.getQuitMessage());
 
         startBibliotecaAppWithInput("4");
+
+        assertEquals(expectedContent.toString(), outContent.toString());
+    }
+
+    @Test
+      public void shouldNotSeeTheMovieAfterCheckoutIt() {
+        expectedContent.append("Please input the check-out movie name:\n");
+        expectedContent.append(bibliotecaApp.getCheckoutMovieSuccessfulMessage());
+        expectedContent.append("List Movies:\n");
+        expectedContent.append(bibliotecaApp.getQuitMessage());
+
+        startBibliotecaAppWithInput("5\nSpider-Man\n4");
+
+        assertEquals(expectedContent.toString(), outContent.toString());
+    }
+
+    @Test
+    public void shouldSeeCheckoutFailedMessageWhenCheckoutMovieFailed() {
+        expectedContent.append("Please input the check-out movie name:\n");
+        expectedContent.append(bibliotecaApp.getCheckoutMovieFailedMessage());
+        expectedContent.append(bibliotecaApp.getQuitMessage());
+
+        startBibliotecaAppWithInput("5\nUnavailable movie name\n");
 
         assertEquals(expectedContent.toString(), outContent.toString());
     }
