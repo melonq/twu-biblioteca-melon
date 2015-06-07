@@ -70,11 +70,12 @@ public class BibliotecaAppTest {
     @Test
     public void shouldNotSeeTheBookAfterCheckoutIt() {
         expectedContent.append("Please input the check-out book name:\n");
+        expectedContent.append(getAuthorizationMessage());
         expectedContent.append(bibliotecaApp.getCheckoutBookSuccessfulMessage());
         expectedContent.append("List Books:\nEffective C++\t#1991\t#Scott Meyers\n");
         expectedContent.append(bibliotecaApp.getQuitMessage());
 
-        startBibliotecaAppWithInput("2\nHead First Java\n1");
+        startBibliotecaAppWithInput("2\nHead First Java\n000-0001\npassword01\n1");
 
         assertEquals(expectedContent.toString(), outContent.toString());
     }
@@ -82,6 +83,7 @@ public class BibliotecaAppTest {
     @Test
     public void shouldSeeCheckoutFailedMessageWhenCheckoutBookFailed() {
         expectedContent.append("Please input the check-out book name:\n");
+        expectedContent.append(getAuthorizationMessage());
         expectedContent.append(bibliotecaApp.getCheckoutBookFailedMessage());
         expectedContent.append(bibliotecaApp.getQuitMessage());
 
@@ -89,7 +91,23 @@ public class BibliotecaAppTest {
         bookList.get(0).setCheckedOut(true);
         bookList.add(new Book("Effective C++", "1991", "Scott Meyers"));
 
-        startBibliotecaAppWithInput("2\nHead First Java\n");
+        startBibliotecaAppWithInput("2\nHead First Java\n000-0001\npassword01");
+
+        assertEquals(expectedContent.toString(), outContent.toString());
+    }
+
+    @Test
+    public void shouldSeeAuthorizationFailedMessageWhenUserAuthorizationFailed() {
+        expectedContent.append("Please input the check-out book name:\n");
+        expectedContent.append(getAuthorizationMessage());
+        expectedContent.append(bibliotecaApp.getAuthorizationFailedMessage());
+        expectedContent.append(bibliotecaApp.getQuitMessage());
+
+        bookList.add(new Book("Head First Java", "1995", "KathySierra"));
+        bookList.get(0).setCheckedOut(true);
+        bookList.add(new Book("Effective C++", "1991", "Scott Meyers"));
+
+        startBibliotecaAppWithInput("2\nHead First Java\n000-0001\nwrongPassword");
 
         assertEquals(expectedContent.toString(), outContent.toString());
     }
@@ -194,5 +212,10 @@ public class BibliotecaAppTest {
     private String getMovieList() {
         return "List Movies:\n" +
                 "Spider-Man\t2002\tSam Raimi\t6.7/10\n";
+    }
+
+    private String getAuthorizationMessage() {
+        return "Please input your library number:\n" +
+                "Please input your password:\n";
     }
 }

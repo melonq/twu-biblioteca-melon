@@ -7,6 +7,7 @@ import java.util.Scanner;
 public class BibliotecaApp {
     public static List<Book> bookList = new ArrayList<Book>();
     public static List<Movie> movieList = new ArrayList<Movie>();
+    public static List<User> userList = new ArrayList<User>();
 
     public String getWelcomeMessage() {
         return "Welcome to Biblioteca!\n";
@@ -54,6 +55,10 @@ public class BibliotecaApp {
         return "That is not a valid book to return.\n";
     }
 
+    public String getAuthorizationFailedMessage() {
+        return "login failed. Please check your library number and password.\n";
+    }
+
     public static void main(String[] args) {
         new BibliotecaApp().startWith(new ArrayList<Book>());
     }
@@ -65,6 +70,8 @@ public class BibliotecaApp {
             this.bookList = bookList;
         }
         initMovieList();
+        initUserList();
+
         System.out.print(getWelcomeMessage());
         printMenuOptions();
 
@@ -90,10 +97,13 @@ public class BibliotecaApp {
     private void startCheckoutBook(Scanner scanner) {
         System.out.println("Please input the check-out book name:");
         String bookName = scanner.nextLine();
-        if (checkoutBookSuccessful(bookName)) {
-            System.out.print(getCheckoutBookSuccessfulMessage());
-        } else {
-            System.out.print(getCheckoutBookFailedMessage());
+        boolean userAuthorizationResult = startUserAuthorization(scanner);
+        if (userAuthorizationResult == true) {
+            if (checkoutBookSuccessful(bookName)) {
+                System.out.print(getCheckoutBookSuccessfulMessage());
+            } else {
+                System.out.print(getCheckoutBookFailedMessage());
+            }
         }
     }
 
@@ -147,6 +157,22 @@ public class BibliotecaApp {
         return false;
     }
 
+    private boolean startUserAuthorization(Scanner scanner) {
+        System.out.println("Please input your library number:");
+        String libraryNumber = scanner.nextLine();
+        System.out.println("Please input your password:");
+        String password = scanner.nextLine();
+
+        for (User user: userList) {
+            if (user.verified(libraryNumber, password)) {
+                return true;
+            }
+        }
+
+        System.out.print(getAuthorizationFailedMessage());
+        return false;
+    }
+
     private void printMenuOptions() {
         System.out.print(getMenuMessage());
     }
@@ -193,5 +219,11 @@ public class BibliotecaApp {
     private static void initMovieList() {
         movieList = new ArrayList<Movie>();
         movieList.add(new Movie("Spider-Man", "2002", "Sam Raimi", "6.7/10"));
+    }
+
+    private static void initUserList() {
+        userList = new ArrayList<User>();
+        userList.add(new User("000-0001", "password01"));
+        userList.add(new User("000-0002", "password02"));
     }
 }
