@@ -29,11 +29,11 @@ public class BibliotecaApp {
         return "Bye!";
     }
 
-    public String getCheckoutSuccessfulMessage() {
+    public String getCheckoutBookSuccessfulMessage() {
         return "Thank you! Enjoy the book.\n";
     }
 
-    public String getCheckoutFailedMessage() {
+    public String getCheckoutBookFailedMessage() {
         return "That book is not available.\n";
     }
 
@@ -80,9 +80,9 @@ public class BibliotecaApp {
         System.out.println("Please input the check-out book name:");
         String bookName = scanner.nextLine();
         if (checkoutSuccessful(bookName)) {
-            System.out.print(getCheckoutSuccessfulMessage());
+            System.out.print(getCheckoutBookSuccessfulMessage());
         } else {
-            System.out.print(getCheckoutFailedMessage());
+            System.out.print(getCheckoutBookFailedMessage());
         }
     }
 

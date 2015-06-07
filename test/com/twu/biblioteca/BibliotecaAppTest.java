@@ -69,7 +69,7 @@ public class BibliotecaAppTest {
     @Test
     public void shouldNotSeeTheBookAfterCheckoutIt() {
         expectedContent.append("Please input the check-out book name:\n");
-        expectedContent.append(bibliotecaApp.getCheckoutSuccessfulMessage());
+        expectedContent.append(bibliotecaApp.getCheckoutBookSuccessfulMessage());
         expectedContent.append("List Books:\nEffective C++\t#1991\t#Scott Meyers\n");
         expectedContent.append(bibliotecaApp.getQuitMessage());
 
@@ -81,7 +81,7 @@ public class BibliotecaAppTest {
     @Test
     public void shouldSeeCheckoutFailedMessageWhenCheckoutBookFailed() {
         expectedContent.append("Please input the check-out book name:\n");
-        expectedContent.append(bibliotecaApp.getCheckoutFailedMessage());
+        expectedContent.append(bibliotecaApp.getCheckoutBookFailedMessage());
         expectedContent.append(bibliotecaApp.getQuitMessage());
 
         bookList.add(new Book("Head First Java", "1995", "KathySierra"));
