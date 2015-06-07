@@ -20,6 +20,7 @@ public class BibliotecaApp {
                 "3. Return Books.\n" +
                 "4. Show List Movies.\n" +
                 "5. Checkout Movies.\n" +
+                "8. Show User Information.\n" +
                 "0. Quit.\n";
     }
 
@@ -89,8 +90,17 @@ public class BibliotecaApp {
             printMovieList();
         } else if (input.equals("5")) {
             startCheckoutMovie(scanner);
+        } else if (input.equals("8")) {
+            startShowUserInformation(scanner);
         } else {
             printInvalidErrorMessage();
+        }
+    }
+
+    private void startShowUserInformation(Scanner scanner) {
+        User user = startUserAuthorization(scanner);
+        if (user != null) {
+            System.out.println(user.getUserInformation());
         }
     }
 
@@ -224,7 +234,7 @@ public class BibliotecaApp {
 
     private static void initUserList() {
         userList = new ArrayList<User>();
-        userList.add(new User("000-0001", "password01"));
-        userList.add(new User("000-0002", "password02"));
+        userList.add(new User("000-0001", "password01", "firstUser", "first@gmail.com", "12345678901"));
+        userList.add(new User("000-0002", "password02", "secondUser", "second@gmail.com", "12345678902"));
     }
 }

@@ -44,6 +44,7 @@ public class BibliotecaAppTest {
         assertTrue(outContent.toString().contains("3. Return Books."));
         assertTrue(outContent.toString().contains("4. Show List Movies."));
         assertTrue(outContent.toString().contains("5. Checkout Movies."));
+        assertTrue(outContent.toString().contains("8. Show User Information."));
         assertTrue(outContent.toString().contains("0. Quit."));
     }
 
@@ -97,7 +98,7 @@ public class BibliotecaAppTest {
     }
 
     @Test
-    public void shouldSeeAuthorizationFailedMessageWhenUserAuthorizationFailed() {
+    public void shouldSeeAuthorizationFailedMessageWhenAuthorizationFailedInOption2() {
         expectedContent.append("Please input the check-out book name:\n");
         expectedContent.append(getAuthorizationMessage());
         expectedContent.append(bibliotecaApp.getAuthorizationFailedMessage());
@@ -170,6 +171,28 @@ public class BibliotecaAppTest {
         expectedContent.append(bibliotecaApp.getQuitMessage());
 
         startBibliotecaAppWithInput("5\nUnavailable movie name\n");
+
+        assertEquals(expectedContent.toString(), outContent.toString());
+    }
+
+    @Test
+    public void shouldSeeUserInformationWhenAuthorizationPassed() {
+        expectedContent.append(getAuthorizationMessage());
+        expectedContent.append("Name:\tfirstUser\nEmail Address:\tfirst@gmail.com\nPhone Number:\t12345678901\n");
+        expectedContent.append(bibliotecaApp.getQuitMessage());
+
+        startBibliotecaAppWithInput("8\n000-0001\npassword01");
+
+        assertEquals(expectedContent.toString(), outContent.toString());
+    }
+
+    @Test
+    public void shouldSeeAuthorizationFailedMessageWhenAuthorizationFailedInOption8() {
+        expectedContent.append(getAuthorizationMessage());
+        expectedContent.append("Name:\tfirstUser\nEmail Address:\tfirst@gmail.com\nPhone Number:\t12345678901\n");
+        expectedContent.append(bibliotecaApp.getQuitMessage());
+
+        startBibliotecaAppWithInput("8\n000-0001\npassword01");
 
         assertEquals(expectedContent.toString(), outContent.toString());
     }
