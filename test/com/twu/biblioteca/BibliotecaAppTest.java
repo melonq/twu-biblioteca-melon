@@ -42,6 +42,7 @@ public class BibliotecaAppTest {
         assertTrue(outContent.toString().contains("1. Show List Books."));
         assertTrue(outContent.toString().contains("2. Checkout Books."));
         assertTrue(outContent.toString().contains("3. Return Books."));
+        assertTrue(outContent.toString().contains("4. Show List Movies."));
         assertTrue(outContent.toString().contains("0. Quit."));
     }
 
@@ -122,6 +123,16 @@ public class BibliotecaAppTest {
     }
 
     @Test
+    public void shouldSeeAListOfAvailableMovies() {
+        expectedContent.append(getMovieList());
+        expectedContent.append(bibliotecaApp.getQuitMessage());
+
+        startBibliotecaAppWithInput("4");
+
+        assertEquals(expectedContent.toString(), outContent.toString());
+    }
+
+    @Test
     public void mainPageShouldNotHaveListBooks() {
         startBibliotecaAppWithInput("0");
         String bookInfo = getBookList();
@@ -154,5 +165,10 @@ public class BibliotecaAppTest {
         return "List Books:\n" +
                 "Head First Java\t#1995\t#KathySierra\n" +
                 "Effective C++\t#1991\t#Scott Meyers\n";
+    }
+
+    private String getMovieList() {
+        return "List Movies:\n" +
+                "Spider-Man\t2002\tSam Raimi\t6.7/10\n";
     }
 }
